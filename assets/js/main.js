@@ -45,24 +45,27 @@
     form.addEventListener("submit", function (event) {
       event.preventDefault();
 
-      var missing = Array.prototype.filter.call(
-        form.querySelectorAll("input[required]"),
-        function (input) {
-          return !input.value.trim() || !input.checkValidity();
-        }
+      var inputs = Array.prototype.slice.call(
+        form.querySelectorAll("input[required]")
       );
+
+      var missing = inputs.filter(function (input) {
+        return !input.value.trim() || !input.checkValidity();
+      });
+
+      inputs.forEach(function (input) {
+        input.setAttribute("aria-invalid", missing.indexOf(input) > -1 ? "true" : "false");
+      });
 
       if (missing.length) {
         status.textContent =
           "Please complete the business name, service area and a valid email address.";
-        status.classList.remove("hidden");
         missing[0].focus();
         return;
       }
 
       status.textContent =
         "Testing build — this form is not connected yet, so nothing was sent. In the live version this would start your visibility review request.";
-      status.classList.remove("hidden");
     });
   }
 

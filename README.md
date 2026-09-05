@@ -100,6 +100,7 @@ so the testing deployment is not indexed. **Remove those tags before production 
 | Final CTA form | No backend. Submissions are intercepted in `assets/js/main.js` and acknowledged locally; nothing is sent or stored |
 | `<head>` of both pages | Remove `noindex, nofollow` |
 | `<head>` | Add Open Graph / social share image once brand assets exist |
+| Fonts | Decide whether to keep Google Fonts or self-host. Google Fonts is a third-party request (~108 KB, 60% of page weight) and is disclosed in `privacy.html` — self-hosting removes both the dependency and the disclosure |
 
 Nothing about the founder's qualifications, experience, certifications, client numbers or awards
 has been invented — every one of those is left as an explicit placeholder.
@@ -112,7 +113,22 @@ has been invented — every one of those is left as an explicit placeholder.
   *Observation:* … / *What we'd investigate:* … Nothing states a cause as a fact.
 - No delivery-time promise (e.g. "within two business days") is made anywhere.
 - The only call to action is **"Request a local visibility review"** — no consultation booking,
-  quotes, pricing or packages.
+  quotes, pricing or packages. Header, footer and inline links shorten it to "Request a review"
+  for space, but it is always the same action.
+- Review delivery is deliberately described as "a short, personalized visibility review" and is
+  never locked to a written report, so it can be delivered as video, PDF or snapshot.
+
+## Design constraints worth not regressing
+
+- **Grid SVGs are capped at 424px** (`.viz-grid`). Both use a fixed 424-unit `viewBox`, so their
+  in-figure labels scale with the container. Uncapped, the sample numerals render at ~8px on a
+  375px phone and ~30px in a tablet-width single-column layout.
+- **Moderate viz numerals use ink, not white.** White on `#C2740B` is only 3.4:1; ink `#0E1A26`
+  on it is 5.1:1. Strong and weak fills are dark enough to keep white numerals.
+- **The hero text column is `1.25fr`.** The visual column only needs to reach the 424px cap, and
+  the extra width is what keeps both hero CTAs on a single line.
+- **No `overflow-x: hidden` on `body`.** It was removed after verifying zero horizontal overflow
+  from 320px to 1600px — keep real overflow visible rather than masked.
 
 ## Future Django conversion
 

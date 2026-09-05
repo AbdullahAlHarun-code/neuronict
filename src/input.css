@@ -54,7 +54,6 @@
     font-family: var(--font-sans);
     color: var(--color-body);
     background-color: #ffffff;
-    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -189,6 +188,19 @@
     color: var(--color-primary-hover);
   }
 
+  /* Data visualisation ---------------------------------------------------- */
+  /* Both grids use a fixed 424-unit viewBox, so their in-figure labels scale
+     with the container. Capping the SVG at its natural size keeps those labels
+     legible: unbounded they render at ~8px on a 375px phone and ~30px on a
+     tablet-width single-column layout. */
+  .viz-grid {
+    display: block;
+    width: 100%;
+    max-width: 424px;
+    height: auto;
+    margin-inline: auto;
+  }
+
   /* Surfaces -------------------------------------------------------------- */
   .panel {
     border: 1px solid var(--color-line);
@@ -222,6 +234,16 @@
 
   .field-input:focus {
     border-color: var(--color-primary);
+  }
+
+  .field-input[aria-invalid="true"] {
+    border-color: var(--color-viz-weak);
+  }
+
+  /* The form status live region stays in the accessibility tree so updates are
+     reliably announced; it collapses only while it has no message. */
+  #form-status:empty {
+    display: none;
   }
 
   /* Placeholder markers for the testing build ----------------------------- */
