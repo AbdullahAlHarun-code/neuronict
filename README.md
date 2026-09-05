@@ -1,7 +1,8 @@
 # Neuron ICT — Landing page (testing build)
 
-Static landing page for **Neuron ICT**: local SEO and Google Business Profile
-visibility reviews for established local service businesses.
+Static landing page for **Neuron ICT**: local search visibility reviews — Google Business
+Profile, Google Maps visibility and local competitive context — for established local
+service businesses.
 
 > **Approved static testing baseline: 2d57460**
 >
