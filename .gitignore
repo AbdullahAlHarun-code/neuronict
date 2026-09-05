@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Caches / build caches
+.cache/
+.parcel-cache/
+.temp/
+.tmp/
+.npm/
+
+# NOTE: assets/css/styles.css is the compiled Tailwind output and is
+# intentionally TRACKED — GitHub Pages serves it directly with no build step.

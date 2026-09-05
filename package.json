@@ -1,0 +1,15 @@
+{
+  "name": "neuronict-landing",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Neuron ICT landing page - testing build (static, Tailwind CSS)",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/input.css -o ./assets/css/styles.css --watch",
+    "build": "tailwindcss -i ./src/input.css -o ./assets/css/styles.css --minify",
+    "serve": "npx --yes serve . -l 4173"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  }
+}

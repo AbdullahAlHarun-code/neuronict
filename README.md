@@ -1,0 +1,130 @@
+# Neuron ICT — Landing page (testing build)
+
+Static landing page for **Neuron ICT**: local SEO and Google Business Profile
+visibility reviews for established local service businesses.
+
+> **This is an internal testing/validation build.** It is deployed to GitHub Pages only so
+> the page can be reviewed and approved. GitHub Pages is not the intended production
+> environment — after approval the markup is expected to be converted to Django templates and
+> served from Neuron ICT's own domain.
+
+## Stack
+
+- Semantic HTML5 (no templating, no framework)
+- Tailwind CSS v4, compiled with the standalone Tailwind CLI
+- ~70 lines of vanilla JavaScript (mobile menu, form placeholder state, footer year)
+- Fonts loaded from Google Fonts: Instrument Sans (headings), Inter (body), IBM Plex Mono (labels)
+
+## Project structure
+
+```
+.
+├── index.html            # The landing page — all 10 sections, in order
+├── privacy.html          # Privacy notice placeholder
+├── src/
+│   └── input.css         # Tailwind source: design tokens + component classes
+├── assets/
+│   ├── css/styles.css    # Compiled output — committed so GitHub Pages can serve it
+│   ├── js/main.js        # Minimal progressive enhancement
+│   └── img/              # logo-mark.svg, favicon.svg
+├── .nojekyll             # Serve files as-is on GitHub Pages
+└── package.json
+```
+
+`assets/css/styles.css` is a **build artefact but is committed on purpose** — GitHub Pages
+serves the repository as-is and does not run a build step.
+
+## Local build
+
+Requires Node.js 18+.
+
+```bash
+npm install
+
+# one-off minified production build
+npm run build
+
+# watch mode while editing HTML/CSS
+npm run dev
+```
+
+Rerun `npm run build` and commit `assets/css/styles.css` before every deployment, otherwise
+new Tailwind classes used in the HTML will have no styles.
+
+## Preview locally
+
+Any static server works; opening `index.html` directly via `file://` also works.
+
+```bash
+npm run serve      # http://localhost:4173
+# or
+python -m http.server 4173
+```
+
+## Deploy this testing version to GitHub Pages
+
+1. Create the repository and push:
+
+   ```bash
+   git init
+   git add .
+   git commit -m "Neuron ICT landing page — testing build"
+   git branch -M main
+   git remote add origin https://github.com/<org>/<repo>.git
+   git push -u origin main
+   ```
+
+2. In the repository: **Settings → Pages → Build and deployment**
+   - Source: **Deploy from a branch**
+   - Branch: `main`, folder: `/ (root)`
+
+3. The test URL will be `https://<org>.github.io/<repo>/`.
+
+All asset paths are **relative** (`assets/...`, `index.html`, `privacy.html`), so the site works
+from a repository subpath as well as from a domain root. Keep it that way — do not introduce
+leading-slash paths. No `CNAME` file is included, since no production domain is confirmed.
+
+`index.html` and `privacy.html` currently carry `<meta name="robots" content="noindex, nofollow">`
+so the testing deployment is not indexed. **Remove those tags before production launch.**
+
+## Placeholders that must be replaced before production
+
+| Where | What |
+| --- | --- |
+| About section | Founder/consultant name, role, city/region |
+| About section | Professional photograph (currently a dashed placeholder box) |
+| About section | Short genuine background paragraph |
+| About section + footer | Real LinkedIn profile URL (currently `href="#"`) |
+| Footer | Business email address, city/region |
+| `privacy.html` | Entire page — legal entity, data handling, retention, contact |
+| Final CTA form | No backend. Submissions are intercepted in `assets/js/main.js` and acknowledged locally; nothing is sent or stored |
+| `<head>` of both pages | Remove `noindex, nofollow` |
+| `<head>` | Add Open Graph / social share image once brand assets exist |
+
+Nothing about the founder's qualifications, experience, certifications, client numbers or awards
+has been invented — every one of those is left as an explicit placeholder.
+
+## Content rules baked into this page
+
+- The sample analysis is labelled **"Sample analysis — illustrative example. Not a real client."**
+  Both geo-grid visuals are labelled illustrative.
+- Findings keep **observed fact separate from assumed cause**: each one is written as
+  *Observation:* … / *What we'd investigate:* … Nothing states a cause as a fact.
+- No delivery-time promise (e.g. "within two business days") is made anywhere.
+- The only call to action is **"Request a local visibility review"** — no consultation booking,
+  quotes, pricing or packages.
+
+## Future Django conversion
+
+The markup is structured to port cleanly:
+
+- The header and footer are self-contained and marked with comments for extraction into
+  `includes/header.html` and `includes/footer.html`.
+- Each of the ten sections is a single top-level `<section>` with an `id` and a numbered comment
+  banner, so sections map one-to-one onto template blocks or includes.
+- No content is generated by JavaScript — the DOM is complete in the HTML source.
+- Repeated patterns use shared component classes (`.container-page`, `.section`, `.btn`,
+  `.panel`, `.field-input`, `.eyebrow`, `.lede`) defined in `src/input.css`, so a template
+  refactor does not require rewriting long utility strings.
+- The CTA form uses standard `name` attributes (`business_name`, `service_area`, `email`) ready
+  for a Django form; only `{% csrf_token %}`, `action` and `method` need adding.
