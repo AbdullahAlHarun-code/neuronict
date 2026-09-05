@@ -33,9 +33,18 @@
 }
 
 @layer base {
+  /* The header is sticky (64px, 80px from md), so anchor targets must be offset
+     or the sticky bar covers the top of the section a deep link arrives at. */
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px;
     -webkit-text-size-adjust: 100%;
+  }
+
+  @media (min-width: 768px) {
+    html {
+      scroll-padding-top: 96px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
